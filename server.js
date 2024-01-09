@@ -1,7 +1,17 @@
-const http = require("http");
+const express = require('express');
+const app = express();
+const port = 3000;
 
-const server = http.createServer((req, res)=>{
-    console.log("Jyoti Jyotsna");
-})
+app.get('/home', (req, res) => {
+  res.send('Welcome home');
+});
 
-server.listen(4000);
+app.get('/about', (req, res) => {
+  res.send('Welcome to About Us page');
+});
+
+app.get('/node', (req, res) => {
+  res.send('Welcome to my Node Js project');
+});
+
+app.listen(port);
