@@ -1,17 +1,30 @@
 const express = require('express');
+const fs = require('fs');
 const app = express();
 const port = 3000;
 
-app.get('/home', (req, res) => {
-  res.send('Welcome home');
+// Middleware to parse the body of the request
+app.use(express.urlencoded({ extended: true }));
+
+// Route to display the form
+app.get('/', (req, res) => {
+  res.send(`
+    <form action="/submit" method="POST">
+      <input type="text" name="message" placeholder="Write something..." required>
+      <button type="submit">Submit</button>
+    </form>
+  `);
 });
 
-app.get('/about', (req, res) => {
-  res.send('Welcome to About Us page');
-});
+// Route to handle form submission
+app.post('/submit', (req, res) => {
+  const message = req.body.message;
 
-app.get('/node', (req, res) => {
-  res.send('Welcome to my Node Js project');
+  // Write the message to a file
+  fs.writeFile('message.txt', message, (err) => {
+    if (err) throw err;
+
+  });
 });
 
 app.listen(port);
